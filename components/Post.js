@@ -25,7 +25,7 @@ import { useRecoilState } from "recoil";
 import { modalState, postIdState } from "../atom/modalAtom";
 import { useRouter } from "next/router";
 
-export default function Post({ post, id }) {
+export default function Post({ post, id ,originalPostId}) {
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
   const [hasLiked, setHasLiked] = useState(false);
@@ -34,17 +34,14 @@ export default function Post({ post, id }) {
   const [postId, setPostId] = useRecoilState(postIdState);
   const router = useRouter();
 
-  
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, "posts", id, "likes"),
-      (snapshot) => setLikes(snapshot.docs)
+    onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
+      setLikes(snapshot.docs)
     );
   }, [db]);
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, "posts", id, "comments"),
-      (snapshot) => setComments(snapshot.docs)
+    onSnapshot(collection(db, "posts", id, "comments"), (snapshot) =>
+      setComments(snapshot.docs)
     );
   }, [db]);
 
@@ -71,6 +68,8 @@ export default function Post({ post, id }) {
   async function deletePost() {
     if (window.confirm("Are you sure you want to delete this post?"))
       deleteDoc(doc(db, "posts", id));
+    deleteDoc(doc(db, "posts", id, "likes", session?.user.uid));
+    deleteDoc(doc(db, "posts", originalPostId, "comments", commentId));
     if (post.data().image) {
       deleteObject(ref(storage, `posts/${id}/image`));
     }

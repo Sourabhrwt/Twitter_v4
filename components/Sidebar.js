@@ -13,19 +13,17 @@ import {
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Img from "../public/Twitter-logo-png.png";
 
 export default function Sidebar() {
   const { data: session } = useSession();
+  // const img =
+  //   "https://www.edigitalagency.com.au/wp-content/uploads/Twitter-logo-png.png";
 
   return (
     <div className="hidden sm:flex flex-col p-2 xl:items-start fixed h-full xl:ml-24">
       <div className="hoverEffect p-0 hover:bg-blue-100 xl:px-1">
-        <Image
-          width="40"
-          height="30"
-          alt="twitter-logo"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1245px-Twitter-logo.svg.png"
-        ></Image>
+        <Image width="40" height="30" alt="twitter-logo" src={Img}></Image>
       </div>
 
       {/* Menu */}

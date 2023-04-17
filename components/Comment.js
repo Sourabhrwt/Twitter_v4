@@ -24,7 +24,7 @@ import { useRecoilState } from "recoil";
 import { modalState, postIdState } from "../atom/modalAtom";
 import { useRouter } from "next/router";
 
-export default function Post({ commentId, comment, originalPostId }) {
+export default function Comment({ commentId, comment, originalPostId }) {
   const [likes, setLikes] = useState([]);
   const [hasLiked, setHasLiked] = useState(false);
   const { data: session } = useSession();
@@ -151,7 +151,7 @@ export default function Post({ commentId, comment, originalPostId }) {
               />
             ) : (
               <HeartIcon
-                onClick={likePost}
+                onClick={likeComment}
                 className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100 "
               />
             )}
